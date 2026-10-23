@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kashaf– Frontend Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="bg" aria-hidden="true"></canvas>
+<div class="scrim"></div>
+
+<div class="page">
+  <div class="wrap">
+    <header class="top">
+      <a class="me" href="#top" id="nav-name">Your Name</a>
+      <nav aria-label="Main">
+        <a href="#work">Work</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <div class="hero">
+        <div class="col">
+          <h1 id="name">Your Name</h1>
+          <p class="role" id="role">Frontend Developer</p>
+          <p class="lede" id="lede">I build fast, clear, accessible interfaces that work on every screen.</p>
+          <div class="actions">
+            <a class="btn" href="#work">See my work</a>
+            <a class="btn ghost" href="#contact">Contact me</a>
+          </div>
+        </div>
+      </div>
+
+      <section id="work">
+        <div class="col">
+          <h2 class="sec">Selected work</h2>
+          <ul class="work" id="work-list"></ul>
+        </div>
+      </section>
+
+      <section id="about">
+        <div class="col">
+          <h2 class="sec">About</h2>
+          <div class="prose" id="about-text"></div>
+          <p class="skills" id="skills"></p>
+        </div>
+      </section>
+
+      <section id="contact" class="contact">
+        <div class="col">
+          <h2 class="sec">Contact</h2>
+          <p class="lead">Have a project or a role in mind? Email me and I'll reply within a couple of days.</p>
+          <a class="big" id="email-link" href="mailto:you@example.com">you@example.com</a>
+          <p class="phone" id="phone-wrap"><a id="phone-link" href="tel:">Phone</a></p>
+          <ul class="links" id="social-links"></ul>
+        </div>
+      </section>
+    </main>
+
+    <footer>© <span id="year"></span> <span id="footer-name">Your Name</span></footer>
+  </div>
+</div>
+
+<script>
+  // ---- Edit this block to make the page yours ----
+  const CONFIG = {
+    name: "Kashaf ",
+    role: "Frontend Developer",
+    lede: "I build fast, clear, accessible interfaces that work on every screen.",
+    email: "ikashaf375@gmail.com",
+    phone: "+92 3352127328",
+    about: [
+      " Frontend Developer focused on building fast, beautiful and functional websites.",
+      "Build a website"
+    ],
+    skills: "HTML, CSS, JavaScript, accessibility, performance, Git",
+    projects: [
+      { title: "Fandom verse", url: "https://fandom-verse-7.vercel.app?_vercel_share=9Cy4b0FrySYcL2eejPztl8ub6Qyby344", year: "2026", stack: "Claud,React", text: "It was our group website." },
+      { title: "Project two", url: "#", year: "2025", stack: "Next.js, Tailwind CSS", text: "One sentence on the problem it solves and what you built." },
+      { title: "Project three", url: "#", year: "2025", stack: "JavaScript, REST API", text: "One sentence on the problem it solves and what you built." }
+    ],
+    links: [
+      { label: "GitHub", url: "https://github.com/" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/" }
+    ]
+  };
+  // ------------------------------------------------
+
+  const $ = (id) => document.getElementById(id);
+  document.title = CONFIG.name + " – " + CONFIG.role;
+  $("nav-name").textContent = CONFIG.name;
+  $("footer-name").textContent = CONFIG.name;
+  $("name").textContent = CONFIG.name;
+  $("role").textContent = CONFIG.role;
+  $("lede").textContent = CONFIG.lede;
+  $("year").textContent = new Date().getFullYear();
+  $("email-link").href = "mailto:" + CONFIG.email;
+  $("email-link").textContent = CONFIG.email;
+  $("skills").textContent = CONFIG.skills;
+  if (CONFIG.phone) {
+    $("phone-link").href = "tel:" + CONFIG.phone.replace(/[^+\d]/g, "");
+    $("phone-link").textContent = CONFIG.phone;
+  } else {
+    $("phone-wrap").hidden = true;
+  }
+
+  CONFIG.about.forEach((t) => {
+    const p = document.createElement("p");
+    p.textContent = t;
+    $("about-text").appendChild(p);
+  });
+
+  CONFIG.projects.forEach((p) => {
+    const li = document.createElement("li");
+    const left = document.createElement("div");
+    const h3 = document.createElement("h3");
+    const a = document.createElement("a");
+    a.href = p.url; a.textContent = p.title;
+    h3.appendChild(a);
+    const desc = document.createElement("p");
+    desc.textContent = p.text;
+    left.append(h3, desc);
+    const meta = document.createElement("div");
+    meta.className = "meta";
+    const year = document.createElement("strong");
+    year.textContent = p.year;
+    meta.append(year, document.createTextNode(p.stack));
+    li.append(left, meta);
+    $("work-list").appendChild(li);
+  });
+
+  CONFIG.links.forEach((l) => {
+    const li = document.createElement("li");
+    const a = document.createElement("a");
+    a.href = l.url; a.textContent = l.label; a.rel = "noopener";
+    li.appendChild(a);
+    $("social-links").appendChild(li);
+  });
+
+  // ---- Scroll-driven frame sequence ----
+  // Your images live in the "frames" folder, next to this file.
+  // If you have more or fewer images, or different file names, change these lines.
+  const FRAME_COUNT = 156;
+  const framePath = (n) => "frames/ezgif-frame-" + String(n).padStart(3, "0") + ".jpg";
+  const FRAMES = Array.from({ length: FRAME_COUNT }, (_, i) => framePath(i + 1));
+
+  const canvas = $("bg");
+  const ctx = canvas.getContext("2d");
+  const N = FRAMES.length;
+  const FOCUS_X = 0.58; // which part of the image stays visible when the screen is narrow
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const imgs = new Array(N);
+  let current = 0, target = 0, running = false, shown = -1;
+
+  function sizeCanvas() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    canvas.width = Math.round(window.innerWidth * dpr);
+    canvas.height = Math.round(window.innerHeight * dpr);
+    shown = -1;
+    draw(Math.round(current));
+  }
+
+  function draw(i) {
+    let k = i;
+    while (k > 0 && !(imgs[k] && imgs[k].complete && imgs[k].naturalWidth)) k--;
+    const img = imgs[k];
+    if (!img || !img.naturalWidth) return;
+    if (k === shown) return;
+    shown = k;
+    const cw = canvas.width, ch = canvas.height;
+    const s = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
+    const w = img.naturalWidth * s, h = img.naturalHeight * s;
+    ctx.imageSmoothingQuality = "high";
+    ctx.drawImage(img, (cw - w) * FOCUS_X, (ch - h) * 0.5, w, h);
+  }
+
+  function readScroll() {
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    const p = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+    target = reduceMotion ? 0 : p * (N - 1);
+  }
+
+  function loop() {
+    current += (target - current) * 0.18;
+    if (Math.abs(target - current) < 0.02) current = target;
+    draw(Math.round(current));
+    if (current !== target) requestAnimationFrame(loop); else running = false;
+  }
+  function kick() { if (!running) { running = true; requestAnimationFrame(loop); } }
+
+  FRAMES.forEach((src, i) => {
+    const im = new Image();
+    im.onload = () => { if (i <= Math.round(current)) { shown = -1; draw(Math.round(current)); } };
+    im.src = src;
+    imgs[i] = im;
+  });
+
+  window.addEventListener("scroll", () => { readScroll(); kick(); }, { passive: true });
+  window.addEventListener("resize", () => { sizeCanvas(); readScroll(); kick(); });
+  sizeCanvas();
+  readScroll();
+  kick();
+</script>
+</body>
+</html>
